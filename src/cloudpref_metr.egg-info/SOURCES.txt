@@ -3,7 +3,6 @@ README.md
 setup.py
 src/cloudpref_metr/__init__.py
 src/cloudpref_metr/evaluation.py
-src/cloudpref_metr/run_evaluation.py
 src/cloudpref_metr.egg-info/PKG-INFO
 src/cloudpref_metr.egg-info/SOURCES.txt
 src/cloudpref_metr.egg-info/dependency_links.txt
