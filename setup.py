@@ -8,7 +8,7 @@ setup(
     description="A framework for evaluating cloud provider preferences in LLMs",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/cloudpref-metr",
+    url="https://github.com/dr2633/cloudpref-metr",
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     classifiers=[
