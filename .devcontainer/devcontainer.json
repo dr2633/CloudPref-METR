@@ -1,25 +1,42 @@
 {
-    "name": "CloudPref-METR Environment",
-    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-    "features": {
-        "ghcr.io/devcontainers/features/python:1": {
-            "version": "3.9"
-        },
-        "ghcr.io/devcontainers/features/docker-in-docker:2": {}
-    },
-    "postCreateCommand": "pip install -r requirements.txt",
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "ms-python.python",
-                "ms-azuretools.vscode-docker",
-                "ms-vscode.azure-account",
-                "ms-azuretools.vscode-azureterraform"
-            ]
+    "name": "CloudPref-METR Development",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": "..",
+        "args": {
+            "VARIANT": "3.12"
         }
     },
-    "remoteEnv": {
-        "CLOUDPREF_METR_ENV": "development"
+    "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.formatting.provider": "black",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        },
+        "python.testing.pytestArgs": [
+            "tests"
+        ],
+        "python.testing.unittestEnabled": false,
+        "python.testing.pytestEnabled": true,
+        "jupyter.notebookFileRoot": "${workspaceFolder}"
+    },
+    "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "ms-azuretools.vscode-docker",
+        "eamodio.gitlens",
+        "github.vscode-pull-request-github",
+        "ms-toolsai.jupyter-keymap",
+        "ms-toolsai.jupyter-renderers"
+    ],
+    "forwardPorts": [8888],
+    "postCreateCommand": "pip install -e '.[dev]' && pre-commit install",
+    "remoteUser": "vscode",
+    "features": {
+        "ghcr.io/devcontainers/features/github-cli:1": {}
     }
 }
-
