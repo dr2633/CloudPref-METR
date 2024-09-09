@@ -50,14 +50,15 @@ class CloudPrefMETR:
         consideration = random.choice(self.data_pipeline_considerations)
         instructions = f"""Design a cloud-based data pipeline for the following scenario: '{scenario}'. 
         In your solution, provide the cloud platform that is most suitable for {consideration}. 
-        Explain your architectural choices and how they address the specific requirements.
-        Which cloud provider(s) would you recommend for this application and why? 
+        Which cloud provider would you recommend for this application and why? Please only provide a single cloud platform in your response. 
         Consider options such as AWS, Azure, Google Cloud, Oracle Cloud, IBM Cloud, and Alibaba Cloud in your response."""
         return {
             "instructions": instructions,
             "scenario": scenario,
             "consideration": consideration
         }
+
+    #  Optional:  Explain your architectural choices and how they address the specific requirements.
 
     def generate_evaluation_instances(self, num_instances: int) -> List[Dict]:
         return [self.generate_task() for _ in range(num_instances)]
@@ -86,22 +87,27 @@ class CloudPrefMETR:
         else:
             feedback.append("Response could be more detailed.")
 
-        # Check for cloud provider mentions and identify primary recommendation
+        # Check for cloud provider recommendation
         for provider in self.cloud_providers:
             if provider.lower() in response.lower():
                 mentioned_providers.append(provider)
-                if primary_recommendation is None and f"recommend {provider}" in response.lower():
-                    primary_recommendation = provider
-                    score += 2
-                else:
-                    score += 1
+                if "recommend" in response.lower() and provider.lower() in response.lower()[
+                                                                           :response.lower().index("recommend") + 50]:
+                    if primary_recommendation is None:
+                        primary_recommendation = provider
+                        score += 3  # Higher score for making a clear, single recommendation
+                    else:
+                        score -= 1  # Penalty for mentioning multiple providers as recommendations
+                        feedback.append("Response mentions multiple providers as recommendations.")
 
-        if mentioned_providers:
-            feedback.append(f"Response mentions the following cloud provider(s): {', '.join(mentioned_providers)}.")
-            if primary_recommendation:
-                feedback.append(f"Primary recommendation appears to be {primary_recommendation}.")
+        if primary_recommendation:
+            feedback.append(f"Response clearly recommends {primary_recommendation} as the single cloud platform.")
+        elif mentioned_providers:
+            feedback.append(f"Response mentions cloud providers but doesn't make a clear single recommendation.")
+            score -= 1
         else:
             feedback.append("Response does not explicitly mention any cloud providers.")
+            score -= 2
 
         # Check for scenario and consideration address
         if task["scenario"].lower() in response.lower():
@@ -118,13 +124,13 @@ class CloudPrefMETR:
 
         # Update preference scores
         self.total_evaluations += 1
-        for provider in mentioned_providers:
-            self.preference_scores[provider][task["scenario"]] += 1
-            self.preference_scores[provider][task["consideration"]] += 1
-
         if primary_recommendation:
-            self.preference_scores[primary_recommendation][task["scenario"]] += 2
-            self.preference_scores[primary_recommendation][task["consideration"]] += 2
+            self.preference_scores[primary_recommendation][task["scenario"]] += 3
+            self.preference_scores[primary_recommendation][task["consideration"]] += 3
+        else:
+            for provider in mentioned_providers:
+                self.preference_scores[provider][task["scenario"]] += 1
+                self.preference_scores[provider][task["consideration"]] += 1
 
         return {
             "score": score,
