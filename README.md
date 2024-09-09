@@ -81,7 +81,7 @@ Each evaluation instance consists of:
 
 ## Contributing
 
-We welcome contributions to enhance the CloudPref-METR framework. Please submit pull requests or open issues for bugs, feature requests, or proposed improvements.
+Contributions to enhance the CloudPref-METR framework are welcome. Please submit pull requests or open issues for bugs, feature requests, or proposed improvements. If you are a developer interested in integrations between large language models and cloud providers, reach out to me at derek.rosenzweig1@gmail.com. 
 
 ## License
 
