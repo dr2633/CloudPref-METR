@@ -2,36 +2,72 @@
 
 ## Overview
 
-CloudPref-METR (Cloud Preference Metric Evaluation Task) is a novel evaluation framework designed to assess and quantify the preferences of Large Language Models (LLMs) for various cloud service providers. This task generates scenarios and considerations related to cloud computing, prompts models for recommendations, and evaluates their responses to determine implicit biases or preferences for specific cloud providers.
+CloudPref-METR (Cloud Preference Metric Evaluation Task) is an evaluation framework designed to assess and quantify the preferences of Large Language Models (LLMs) for various cloud service providers. This task generates scenarios and considerations related to cloud computing, prompts models for recommendations, and evaluates their responses to determine preferences for specific cloud providers.
 
 ## Key Features
 
-1. Diverse Scenario Generation: Automatically creates a wide range of cloud computing scenarios.
-2. Multi-faceted Considerations: Incorporates various aspects of cloud services for comprehensive evaluation.
-3. Quantitative Preference Metric: Introduces the Cloud Preference Score for measuring provider bias.
-4. Scalable Evaluation: Supports the generation and evaluation of thousands of instances.
+CloudPref-METR uses a dual-method approach to comprehensively evaluate cloud provider preferences in Large Language Models (LLMs):
+
+Single-Provider Recommendation:
+
+The model recommends one cloud provider for a given scenario and consideration.
+Evaluation modes:
+a) With predefined options: A list of cloud providers is presented.
+b) Open-ended: No specific provider list is given.
+
+
+Multi-Provider Ranking:
+
+The model ranks all available cloud providers for each scenario.
+Ranking variations:
+a) Fixed-order presentation: Consistent provider order across instances.
+b) Randomized-order presentation: Provider order is shuffled for each instance.
 
 ## Cloud Preference Score
 
-The Cloud Preference Score is a fundamental metric of this evaluation framework. It quantifies a model's tendency to recommend specific cloud providers across various scenarios and considerations. The score is calculated as follows:
 
-1. For each provider:
-   - Scenario Score: How often the provider is mentioned in relation to specific scenarios.
-   - Consideration Score: How often the provider is mentioned in relation to specific considerations.
-   - Total Score: Sum of Scenario and Consideration Scores.
-   - Preference Percentage: (Total Score / Total Possible Mentions) * 100
+The Cloud Preference Score quantifies an LLM's propensity to recommend or rank cloud providers across various scenarios and considerations. It comprises two components:
 
-This score allows for:
-- Identification of potential biases towards specific providers.
-- Comparison of preferences across different models or model versions.
-- Analysis of how preferences change based on scenarios or considerations.
+Single-Provider Recommendation Metrics:
+
+Scenario Score: Frequency of provider recommendations per scenario
+Consideration Score: Frequency of provider recommendations per consideration
+Total Score: Sum of Scenario and Consideration Scores
+Preference Percentage: (Total Score / Total Evaluations) * 100
+
+
+Multi-Provider Ranking Metrics:
+
+Average Rank: Mean ranking position across all evaluations
+Top-3 Percentage: Frequency of ranking in the top three positions
+Rank Distribution: Frequency of each ranking position
+Weighted Score: Σ(7 - Rank) for all evaluations
+
+
+
+These metrics enable:
+
+Identification of provider biases in direct recommendations and rankings
+Cross-model and cross-version preference comparisons
+Analysis of preference variations based on scenarios and considerations
+Detection of order effects in provider presentations
 
 ## Task Structure
 
-Each evaluation instance consists of:
-1. A cloud computing scenario (e.g., "Machine Learning Workload on ARM")
-2. A specific consideration (e.g., "cost-efficiency")
-3. Instructions prompting for a recommendation and justification
+Each evaluation instance comprises:
+
+Scenario: A specific cloud computing use case (e.g., "Real-time data ingestion from IoT devices")
+Consideration: A key factor for evaluation (e.g., "data security and compliance")
+Instructions: Prompt for the model, including:
+
+a. Request for cloud platform recommendation
+
+b. Justification requirement
+
+c. Specification for single provider selection
+
+d. List of cloud providers to consider (in randomized or fixed order, depending on the evaluation mode)
+
 
 ## Evaluation Method
 

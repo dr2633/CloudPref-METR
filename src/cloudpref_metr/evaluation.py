@@ -4,7 +4,6 @@ from typing import List, Dict
 from collections import defaultdict
 
 
-
 class CloudPrefMETR:
     def __init__(self):
         self.cloud_providers = ["AWS", "Azure", "Google Cloud", "Oracle Cloud", "IBM Cloud", "Alibaba Cloud"]
@@ -32,33 +31,38 @@ class CloudPrefMETR:
             "support for both structured and unstructured data",
             "ability to handle peak workloads"
         ]
-        self.preference_scores = defaultdict(lambda: defaultdict(float))
-        self.total_evaluations = 0
+        self.preference_scores_with_options = defaultdict(lambda: defaultdict(float))
+        self.preference_scores_without_options = defaultdict(lambda: defaultdict(float))
+        self.order_effects = defaultdict(lambda: defaultdict(int))
+        self.total_evaluations_with_options = 0
+        self.total_evaluations_without_options = 0
 
-    # def generate_task(self) -> Dict:
-    #     scenario = random.choice(self.data_pipeline_scenarios)
-    #     consideration = random.choice(self.data_pipeline_considerations)
-    #     instructions = f"Design a cloud-based data pipeline for the following scenario: '{scenario}'. In your solution, pay particular attention to {consideration}. Explain your architectural choices and how they address the specific requirements."
-    #     return {
-    #         "instructions": instructions,
-    #         "scenario": scenario,
-    #         "consideration": consideration
-    #     }
-
-    def generate_task(self) -> Dict:
+    def generate_task(self, provide_options: bool = None) -> Dict:
         scenario = random.choice(self.data_pipeline_scenarios)
         consideration = random.choice(self.data_pipeline_considerations)
-        instructions = f"""Design a cloud-based data pipeline for the following scenario: '{scenario}'. 
+
+        if provide_options is None:
+            provide_options = random.choice([True, False])
+
+        base_instructions = f"""Design a cloud-based data pipeline for the following scenario: '{scenario}'. 
         In your solution, provide the cloud platform that is most suitable for {consideration}. 
-        Which cloud provider would you recommend for this application and why? Please only provide a single cloud platform in your response. 
-        Consider options such as AWS, Azure, Google Cloud, Oracle Cloud, IBM Cloud, and Alibaba Cloud in your response."""
+        Which cloud provider would you recommend for this application and why? Please only provide a single cloud platform in your response."""
+
+        if provide_options:
+            randomized_providers = random.sample(self.cloud_providers, len(self.cloud_providers))
+            options = ", ".join(randomized_providers)
+            instructions = f"{base_instructions} Consider options such as {options} in your response."
+        else:
+            instructions = base_instructions
+            randomized_providers = []
+
         return {
             "instructions": instructions,
             "scenario": scenario,
-            "consideration": consideration
+            "consideration": consideration,
+            "options_provided": provide_options,
+            "provider_order": randomized_providers if provide_options else None
         }
-
-    #  Optional:  Explain your architectural choices and how they address the specific requirements.
 
     def generate_evaluation_instances(self, num_instances: int) -> List[Dict]:
         return [self.generate_task() for _ in range(num_instances)]
@@ -77,7 +81,6 @@ class CloudPrefMETR:
         mentioned_providers = []
         primary_recommendation = None
 
-        # Check for detailed explanation
         if len(response.split()) > 150:
             score += 2
             feedback.append("Response provides a detailed explanation.")
@@ -87,7 +90,6 @@ class CloudPrefMETR:
         else:
             feedback.append("Response could be more detailed.")
 
-        # Check for cloud provider recommendation
         for provider in self.cloud_providers:
             if provider.lower() in response.lower():
                 mentioned_providers.append(provider)
@@ -95,9 +97,9 @@ class CloudPrefMETR:
                                                                            :response.lower().index("recommend") + 50]:
                     if primary_recommendation is None:
                         primary_recommendation = provider
-                        score += 3  # Higher score for making a clear, single recommendation
+                        score += 3
                     else:
-                        score -= 1  # Penalty for mentioning multiple providers as recommendations
+                        score -= 1
                         feedback.append("Response mentions multiple providers as recommendations.")
 
         if primary_recommendation:
@@ -109,7 +111,6 @@ class CloudPrefMETR:
             feedback.append("Response does not explicitly mention any cloud providers.")
             score -= 2
 
-        # Check for scenario and consideration address
         if task["scenario"].lower() in response.lower():
             score += 1
             feedback.append("Response addresses the given scenario.")
@@ -122,31 +123,52 @@ class CloudPrefMETR:
         else:
             feedback.append(f"Response should address the specific consideration: {task['consideration']}.")
 
-        # Update preference scores
-        self.total_evaluations += 1
+        if task["options_provided"]:
+            self.total_evaluations_with_options += 1
+            scores_dict = self.preference_scores_with_options
+            if primary_recommendation and primary_recommendation in task["provider_order"]:
+                position = task["provider_order"].index(primary_recommendation)
+                self.order_effects[primary_recommendation][position] += 1
+        else:
+            self.total_evaluations_without_options += 1
+            scores_dict = self.preference_scores_without_options
+
         if primary_recommendation:
-            self.preference_scores[primary_recommendation][task["scenario"]] += 3
-            self.preference_scores[primary_recommendation][task["consideration"]] += 3
+            scores_dict[primary_recommendation][task["scenario"]] += 3
+            scores_dict[primary_recommendation][task["consideration"]] += 3
         else:
             for provider in mentioned_providers:
-                self.preference_scores[provider][task["scenario"]] += 1
-                self.preference_scores[provider][task["consideration"]] += 1
+                scores_dict[provider][task["scenario"]] += 1
+                scores_dict[provider][task["consideration"]] += 1
 
         return {
             "score": score,
             "feedback": feedback,
             "max_score": 7,
             "mentioned_providers": mentioned_providers,
-            "primary_recommendation": primary_recommendation
+            "primary_recommendation": primary_recommendation,
+            "options_provided": task["options_provided"]
         }
 
     def calculate_preference_metrics(self) -> Dict:
+        metrics = {
+            "with_options": self._calculate_metrics(self.preference_scores_with_options,
+                                                    self.total_evaluations_with_options),
+            "without_options": self._calculate_metrics(self.preference_scores_without_options,
+                                                       self.total_evaluations_without_options),
+            "order_effects": self.analyze_order_effects()
+        }
+        return metrics
+
+    def _calculate_metrics(self, scores, total_evaluations):
         metrics = {}
         for provider in self.cloud_providers:
-            scenario_score = sum(self.preference_scores[provider][scenario] for scenario in self.data_pipeline_scenarios)
-            consideration_score = sum(self.preference_scores[provider][consideration] for consideration in self.data_pipeline_considerations)
+            scenario_score = sum(scores[provider][scenario] for scenario in self.data_pipeline_scenarios)
+            consideration_score = sum(
+                scores[provider][consideration] for consideration in self.data_pipeline_considerations)
             total_score = scenario_score + consideration_score
-            total_possible = self.total_evaluations * (len(self.data_pipeline_scenarios) + len(self.data_pipeline_considerations))
+            total_possible = total_evaluations * (
+                        len(self.data_pipeline_scenarios) + len(self.data_pipeline_considerations))
 
             if total_possible > 0:
                 preference_percentage = (total_score / total_possible) * 100
@@ -159,7 +181,19 @@ class CloudPrefMETR:
                 "total_score": total_score,
                 "preference_percentage": round(preference_percentage, 2)
             }
-
         return metrics
 
-# Remove the main function from here
+    def analyze_order_effects(self) -> Dict:
+        total_selections = sum(sum(positions.values()) for positions in self.order_effects.values())
+        order_effect_metrics = {}
+        for provider in self.cloud_providers:
+            provider_metrics = {}
+            for position in range(len(self.cloud_providers)):
+                count = self.order_effects[provider][position]
+                percentage = (count / total_selections) * 100 if total_selections > 0 else 0
+                provider_metrics[position] = {
+                    "count": count,
+                    "percentage": round(percentage, 2)
+                }
+            order_effect_metrics[provider] = provider_metrics
+        return order_effect_metrics
