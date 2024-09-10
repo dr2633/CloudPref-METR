@@ -127,6 +127,10 @@ d. List of cloud providers to consider (in randomized or fixed order, depending 
 
 Contributions to enhance the CloudPref-METR framework are welcome. Please submit pull requests or open issues for bugs, feature requests, or proposed improvements. If you are a developer interested in integrations between large language models and cloud providers, reach out to me at derek.rosenzweig1@gmail.com. 
 
+## Acknowledgements
+
+This evaluation is based on the [METR Task Standard](https://github.com/METR/task-standard).
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
