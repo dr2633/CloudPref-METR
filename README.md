@@ -1,4 +1,4 @@
-# CloudPref-METR: Cloud Provider Preference Evaluation Task
+# CloudPref-METR: Cloud Provider Preference Evaluation Task 🌩️
 
 ## Overview
 
