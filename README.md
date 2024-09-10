@@ -6,22 +6,24 @@ CloudPref-METR (Cloud Preference Metric Evaluation Task) is an evaluation framew
 
 ## Key Features
 
-CloudPref-METR uses a dual-method approach to comprehensively evaluate cloud provider preferences in Large Language Models (LLMs):
-
-Single-Provider Recommendation:
+### Single-Provider Recommendation 
 
 The model recommends one cloud provider for a given scenario and consideration.
 Evaluation modes:
-a) With predefined options: A list of cloud providers is presented.
-b) Open-ended: No specific provider list is given.
 
+**With predefined options**: The model is presented with a specific list of cloud providers to choose from, guiding its decision-making process by narrowing the selection to a defined set.
+**Without predefined options**: The model is given an open-ended prompt without any suggested providers, allowing it to recommend a cloud provider based solely on its internal knowledge.
+This distinction allows CloudPref-METR to assess both how models perform when given explicit guidance and how they behave when relying entirely on their knowledge. "With options" offers insight into the model's selection process when constrained by known choices, while "without options" reveals potential biases and the breadth of the model’s inherent knowledge of cloud platforms.
 
-Multi-Provider Ranking:
+### Multi-Provider Ranking:
 
 The model ranks all available cloud providers for each scenario.
+
 Ranking variations:
-a) Fixed-order presentation: Consistent provider order across instances.
-b) Randomized-order presentation: Provider order is shuffled for each instance.
+
+**Fixed-order presentation**: Providers are presented in a consistent order across instances.
+**Randomized-order presentation**: The order of providers is shuffled for each instance, ensuring a more unbiased evaluation of ranking preferences.
+
 
 ## Cloud Preference Score
 
