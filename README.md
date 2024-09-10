@@ -58,14 +58,6 @@ Rank Distribution: Frequency of each ranking position
 
 Weighted Score: Σ(7 - Rank) for all evaluations
 
-With these metrics, we can: 
-
-- Identify cloud provider biases in direct recommendations and rankings
-- Measure preferences across models and version updates
-- Analyze preference variations based on a variety of scenarios and considerations relevant to integrating LLMs with cloud service providers
-- Detect order effects in shaping cloud service provider recommendations
-
-
 ## Task Structure
 
 Each evaluation instance comprises:
