@@ -6,9 +6,9 @@ CloudPref-METR (Cloud Preference Metric Evaluation Task) is an evaluation framew
 
 This task generates scenarios and considerations related to cloud computing, prompts models for recommendations, and evaluates their responses to determine preferences for specific cloud providers.
 
-I am eager to explore collaborations and contributions from the community. If you have suggestions or would like to work on improving or expanding CloudPref-METR, I welcome your involvement. 
+Collaborations and contributions from the community are very welcome. 
 
-Feel free to reach out to me at derek.rosenzweig1@gmail.com.
+If you have suggestions or would like to work on improving or expanding CloudPref-METR, feel free to reach out to me at derek.rosenzweig1@gmail.com.
 
 
 ## Key Features
