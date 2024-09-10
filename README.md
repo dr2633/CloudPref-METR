@@ -37,19 +37,25 @@ Ranking variations:
 
 The Cloud Preference Score quantifies an LLM's propensity to recommend or rank cloud providers across various scenarios and considerations. It comprises two components:
 
-Single-Provider Recommendation Metrics:
+**Single-Provider Recommendation Metrics**:
 
 Scenario Score: Frequency of provider recommendations per scenario
+
 Consideration Score: Frequency of provider recommendations per consideration
+
 Total Score: Sum of Scenario and Consideration Scores
+
 Preference Percentage: (Total Score / Total Evaluations) * 100
 
 
-Multi-Provider Ranking Metrics:
+**Multi-Provider Ranking Metrics**:
 
 Average Rank: Mean ranking position across all evaluations
+
 Top-3 Percentage: Frequency of ranking in the top three positions
+
 Rank Distribution: Frequency of each ranking position
+
 Weighted Score: Σ(7 - Rank) for all evaluations
 
 With these metrics, we can: 
@@ -65,7 +71,9 @@ With these metrics, we can:
 Each evaluation instance comprises:
 
 Scenario: A specific cloud computing use case (e.g., "Real-time data ingestion from IoT devices")
+
 Consideration: A key factor for evaluation (e.g., "data security and compliance")
+
 Instructions: Prompt for the model, including:
 
 a. Request for cloud platform recommendation
