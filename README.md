@@ -18,6 +18,7 @@ The model recommends one cloud provider for a given scenario and consideration.
 Evaluation modes:
 
 **With predefined options**: The model is presented with a specific list of cloud providers to choose from, guiding its decision-making process by narrowing the selection to a defined set.
+
 **Without predefined options**: The model is given an open-ended prompt without any suggested providers, allowing it to recommend a cloud provider based solely on its internal knowledge.
 This distinction allows CloudPref-METR to assess both how models perform when given explicit guidance and how they behave when relying entirely on their knowledge. "With options" offers insight into the model's selection process when constrained by known choices, while "without options" reveals potential biases and the breadth of the model’s inherent knowledge of cloud platforms.
 
@@ -28,6 +29,7 @@ The model ranks all available cloud providers for each scenario.
 Ranking variations:
 
 **Fixed-order presentation**: Providers are presented in a consistent order across instances.
+
 **Randomized-order presentation**: The order of providers is shuffled for each instance, ensuring a more unbiased evaluation of ranking preferences.
 
 
@@ -51,14 +53,13 @@ Top-3 Percentage: Frequency of ranking in the top three positions
 Rank Distribution: Frequency of each ranking position
 Weighted Score: Σ(7 - Rank) for all evaluations
 
+With these metrics, we can: 
 
+- Identify cloud provider biases in direct recommendations and rankings
+- Measure preferences across models and version updates
+- Analyze preference variations based on a variety of scenarios and considerations relevant to integrating LLMs with cloud service providers
+- Detect order effects in shaping cloud service provider recommendations
 
-These metrics enable:
-
-Identification of provider biases in direct recommendations and rankings
-Cross-model and cross-version preference comparisons
-Analysis of preference variations based on scenarios and considerations
-Detection of order effects in provider presentations
 
 ## Task Structure
 
