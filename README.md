@@ -4,6 +4,8 @@
 
 CloudPref-METR (Cloud Preference Metric Evaluation Task) is an evaluation framework designed to assess and quantify the preferences of Large Language Models (LLMs) for various cloud service providers. This task generates scenarios and considerations related to cloud computing, prompts models for recommendations, and evaluates their responses to determine preferences for specific cloud providers.
 
+While this project started as an individual effort, I am eager to explore collaborations and contributions from the community. If you have ideas, suggestions, or would like to work on improving or expanding CloudPref-METR, I warmly welcome your involvement. Feel free to reach out to me at derek.rosenzweig1@gmail.com. I am happy to answer any questions or meet up in San Francisco if you are based here.
+
 ## Key Features
 
 ### Single-Provider Recommendation 

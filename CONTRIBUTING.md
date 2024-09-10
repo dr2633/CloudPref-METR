@@ -1,10 +1,12 @@
 # Contributing Guidelines
 
-Thank you for your interest in contributing to CloudPref-METR! We welcome contributions in all forms, including bug reports, feature requests, or documentation improvements. To help streamline the process, please read through these guidelines before submitting any issues or pull requests.
+Thank you for your interest in contributing to CloudPref-METR! Contributions in all forms, including bug reports, feature requests, or documentation improvements are welcome. To help streamline the process, please read through these guidelines before submitting any issues or pull requests.
+
+While this is currently an individual project, my hope is that there are many opportunities for collaboration that are brought about by making this evaluation public.
 
 ## Reporting Bugs or Requesting Features
 
-We encourage you to use the GitHub issue tracker to report bugs or suggest new features. Before submitting, please:
+Use the GitHub issue tracker to report bugs or suggest new features. Before submitting, please:
 - Check existing open or recently closed issues to avoid duplicates.
 - Provide as much detail as possible, including:
   - Steps to reproduce the bug.
@@ -31,7 +33,7 @@ Check the open issues and look for those labeled as `help wanted`. These are gre
 
 ## Code of Conduct
 
-We ask that all contributors adhere to an open-source code of conduct to foster a respectful and inclusive environment. We are happy to adopt the **Contributor Covenant Code of Conduct**. You can find more information about the Contributor Covenant [here](https://www.contributor-covenant.org/).
+I ask that all contributors adhere to an open-source code of conduct to foster a respectful and inclusive environment. In this project, I adopt best practices from the **Contributor Covenant Code of Conduct**. You can find more information about the Contributor Covenant [here](https://www.contributor-covenant.org/).
 
 ## Security Issues
 
