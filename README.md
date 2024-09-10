@@ -8,7 +8,6 @@ I am eager to explore collaborations and contributions from the community. If yo
 
 Feel free to reach out to me at derek.rosenzweig1@gmail.com.
 
----
 
 ## Key Features
 
