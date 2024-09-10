@@ -6,8 +6,7 @@ CloudPref-METR (Cloud Preference Metric Evaluation Task) is an evaluation framew
 
 I am eager to explore collaborations and contributions from the community. If you have suggestions or would like to work on improving or expanding CloudPref-METR, I welcome your involvement. 
 
-Feel free to reach out to me at derek.rosenzweig1@gmail.com. I am happy to answer questions or meet up in San Francisco if you are based here.
-
+Feel free to reach out to me at derek.rosenzweig1@gmail.com.
 ## Key Features
 
 ### Single-Provider Recommendation 
